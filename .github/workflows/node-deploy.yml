@@ -1,4 +1,5 @@
-name: DEPLOY TO STAGING
+name: AWS DEPLOY TO STAGING
+# turn off deploy to AWS
 
 on:
   pull_request:
@@ -9,15 +10,32 @@ on:
 jobs:
   aws-deploy:
     runs-on: ubuntu-latest
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PW: ${{ secrets.DB_PW}}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      PORT: ${{ secrets.PORT }}
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: dev
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: 24
       - run: npm install
+
+      - run: |
+          touch .env
+          echo DB_HOST = "$DB_HOST" >> .env
+          echo DB_PW = "$DB_PW" >> .env
+          echo DB_USER = "$DB_USER" >> .env
+          echo DB_NAME = "$DB_NAME" >> .env
+          echo PORT = "$PORT" >> .env
+
       - run: npm run bundle
+
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
@@ -26,7 +44,7 @@ jobs:
           SOURCE: "deploy/"
           REMOTE_HOST: "project2.eaglesoftwareteam.com"
           REMOTE_USER: ubuntu
-          TARGET: "nodeapps/2024/project2/t7"
+          TARGET: "nodeapps/seiv2025/p2/t7"
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         env:
@@ -36,9 +54,9 @@ jobs:
           privateKey: ${{ secrets.SERVER_SSH_KEY }}
           debug: false
           command: |
-            cd nodeapps/2024/project2/t7
+            cd nodeapps/seiv2025/p2/t7
             npm install
-            sudo systemctl stop course-backend-t7
-            sudo cp course-backend.service /lib/systemd/system/course-backend-t7.service
+            sudo systemctl stop back-end-seivproject2
+            sudo cp course-backend.service /lib/systemd/system/course-backend.service
             sudo systemctl daemon-reload
-            sudo systemctl start course-backend-t7
+            sudo systemctl start back-end-seivproject2
