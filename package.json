@@ -1,25 +1,24 @@
 {
   "name": "back-end-seivproject2",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "bundle": "mkdir deploy && cp -r config controllers models routes server.js package.json package-lock.json course-backend.service deploy && rm deploy/config/db.config.js && mv deploy/config/prod.db.config.js deploy/config/db.config.js"
+    "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json tutorial-backend-simple.service .env deploy"
   },
+
+  "keywords": [
+    "node.js",
+    "express",
+    "sequalize"
+  ],
+  "author": "bezkoder",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
-    "debug": "~2.6.9",
     "dotenv": "^17.2.2",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "mariadb": "^2.4.2",
-    "morgan": "~1.9.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^2.1.0",
-    "pug": "^2.0.0-beta11",
-    "sequelize": "^6.3.5",
-    "sequelize-cli": "^6.2.0"
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.19.0"
   }
 }
