@@ -4,7 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: process.env.NODE_ENV === "production"
+  ? ["http://project1.eaglesoftwareteam.com/, http://localhost:8081"]
+  : "http://localhost:8081",
+  credentials: true
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
@@ -21,7 +24,7 @@ const db = require("./app/models");
 //});
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to t7 Course Catalog API" });
 });
 require("./app/routes/course.routes")(app);
 // set port, listen for requests
