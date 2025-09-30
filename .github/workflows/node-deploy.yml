@@ -42,7 +42,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "deploy/"
-          REMOTE_HOST: "project2.eaglesoftwareteam.com"
+          REMOTE_HOST: "project1.eaglesoftwareteam.com"
           REMOTE_USER: ubuntu
           TARGET: "nodeapps/seiv2025/p2/t7"
       - name: Execute SSH commmands on remote server
@@ -56,7 +56,7 @@ jobs:
           command: |
             cd nodeapps/seiv2025/p2/t7
             npm install
-            sudo systemctl stop back-end-seivproject2
-            sudo cp course-backend.service /lib/systemd/system/course-backend.service
+            sudo systemctl stop course-t7-backend
+            sudo cp course-t7-backend.service /lib/systemd/system/course-t7-backend.service
             sudo systemctl daemon-reload
-            sudo systemctl start back-end-seivproject2
+            sudo systemctl start course-t7-backend
